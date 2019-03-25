@@ -32,7 +32,4 @@ def find_lib(libname, libdir=None, platform=None):
 
 def find_file(pat, libdir=None):
     libdir = libdir or get_lib_dir()
-    entries = os.listdir(libdir)
-    candidates = [os.path.join(libdir, ent)
-                  for ent in entries if pat.match(ent)]
-    return [c for c in candidates if os.path.isfile(c)]
+    return [os.path.join(dirname, ent) for dirname, _, entries in os.walk(libdir) for ent in entries if pat.match(ent)]
